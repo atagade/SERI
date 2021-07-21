@@ -95,7 +95,7 @@ for episode in range(n_episodes):
 			if(epsilon > np.random.uniform(0,1)):
 				while(action == None or action >= 4):
 					action = env.action_space.sample()
-				print(action)
+				#print(action)
 			else:
 				action = np.argmax(qtable[state,:])
 				#print(action)
@@ -113,8 +113,8 @@ for episode in range(n_episodes):
  	
 	training_rewards_causal.append(total_reward)
 	
-	#if(flag_a == 0):
-	epsilon = min_epsilon + (max_epsilon - min_epsilon)*np.exp(-decay_rate*episode)
+	if(flag_a == 0):
+		epsilon = min_epsilon + (max_epsilon - min_epsilon)*np.exp(-decay_rate*episode)
 	
 	#if(episode%10 == 0):
 		#print('Average rolling reward: ' +str(sum(training_rewards[:-10])/10))
@@ -156,6 +156,7 @@ for episode in range(n_episodes):
 			action = np.argmax(qtable[state,:])
 
 		next_state, reward, done, info = env.step(action)
+		print(reward)
 		total_reward += reward
 		qtable[state, action] = qtable[state, action] + alpha * (reward + gamma * np.max(qtable[next_state, :]) - qtable[state, action])
 		state = next_state

@@ -32,6 +32,7 @@ for episode in range(n_episodes):
 			action = np.argmax(qtable[state,:])
 
 		next_state, reward, done, info = env.step(action)
+		print(reward)
 		total_reward += reward
 		qtable[state, action] = qtable[state, action] + alpha * (reward + gamma * np.max(qtable[next_state, :]) - qtable[state, action])
 		state = next_state
@@ -44,8 +45,8 @@ for episode in range(n_episodes):
 	training_rewards.append(total_reward)
 	epsilon = min_epsilon + (max_epsilon - min_epsilon)*np.exp(-decay_rate*episode)
 	
-	if(episode%10 == 0):
-		print('Average rolling reward: ' +str(sum(training_rewards[:-10])/10))
+	#if(episode%10 == 0):
+		#print('Average rolling reward: ' +str(sum(training_rewards[:-10])/10))
 
 print('Optimum reward received at epoch: ' +str(optimum_reward_ep))
 	
